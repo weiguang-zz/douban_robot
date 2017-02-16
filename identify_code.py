@@ -132,8 +132,10 @@ def _inner_recursion(new_x, new_y, width, height, tmp_list, flag_list, points):
         flag_list[_index] = 1
 
 
-if __name__ == '__main__':
-    img = Image.open('imgs/captcha-7.jpg')
+def recognize_url(url):
+    import urllib
+    urllib.urlretrieve(url, "imgs/tmp-img.jpg")
+    img = Image.open('imgs/tmp-img.jpg')
     img = img.convert('RGBA')
     w, h = img.size[0], img.size[1]
     print w, h
@@ -142,8 +144,24 @@ if __name__ == '__main__':
     reduce_noisy(w, h, point_list)
     print_char_pic(w, h, point_list)
 
-
     img.putdata(point_list)
     img.save("imgs/rebuild.jpg")
 
-    print pytesseract.image_to_string(Image.open('imgs/rebuild.jpg'))
+    return pytesseract.image_to_string(Image.open('imgs/rebuild.jpg'))
+
+if __name__ == '__main__':
+    # img = Image.open('imgs/captcha-1.jpg')
+    # img = img.convert('RGBA')
+    # w, h = img.size[0], img.size[1]
+    # print w, h
+    # point_list = gen_white_black_points(img)
+    # print_char_pic(w, h, point_list)
+    # reduce_noisy(w, h, point_list)
+    # print_char_pic(w, h, point_list)
+    #
+    #
+    # img.putdata(point_list)
+    # img.save("imgs/rebuild.jpg")
+    #
+    # print pytesseract.image_to_string(Image.open('imgs/rebuild.jpg'))
+    print recognize_url('https://www.douban.com/misc/captcha?id=2WaOVr6opqyCWxzBKXKcfcge:en&size=s')
