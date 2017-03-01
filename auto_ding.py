@@ -18,7 +18,7 @@ while True:
 
     data = {
         "rv_comment": 'ding' + str(count),
-        "ck": "4nrT",
+        "ck": "aubV",
         'start': '0',
         'submit_btn': '加上去'
 
@@ -27,6 +27,7 @@ while True:
         rval = requests.get(config.baseurl+'?start=5000#last',headers=header)
         #检验是否需要输入验证码?
         import re
+        data['ck'] = re.search('ck=(\w+)', rval.text).group(1)
         mat = re.search('src=\"(.*?captcha.*?)\"', rval.text)
         if mat:
             #需要识别验证码
